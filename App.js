@@ -9,13 +9,11 @@ import mongoose from 'mongoose';
 import UserRoutes from './Kanbas/users/routes.js';
 import session from 'express-session';
 import "dotenv/config";
-/*
-mongoose.connect("mongodb://127.0.0.1:27017/kanbas");
-mongoose.connect("mongodb+srv://kanbas_admin:AyhzsXPa74EiycRn@kanbas.rl59jhj.mongodb.net/?retryWrites=true&w=majority&appName=kanbas");
- */
+
+
 const CONNECTION_STRING = process.env.REACT_APP_KANBAS_DB_CONNECTION_STRING;
 const DB_NAME = process.env.REACT_APP_DB_NAME;
-mongoose.connect(CONNECTION_STRING, { dbName: DB_NAME, useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(CONNECTION_STRING, { dbName: DB_NAME});
 
 
 const app = express();
@@ -24,7 +22,7 @@ app.use(cors({
     origin: [process.env.FRONTEND_URL, "http://localhost:3000"]
   }));
   const sessionOptions = {
-    secret: 'abcdef',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   };
