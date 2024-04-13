@@ -17,15 +17,21 @@ mongoose.connect(CONNECTION_STRING, { dbName: DB_NAME});
 
 
 const app = express();
-app.use(cors({
-    credentials: true,
-    origin: [process.env.FRONTEND_URL, "http://localhost:3000"]
-  }));
   const sessionOptions = {
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
+    cookie: {
+      sameSite: "none",
+      secure: true,
+      domain: process.env.HTTP_SERVER_DOMAIN,
+    }
   };
+  app.use(cors({
+    credentials: true,
+    origin: [process.env.FRONTEND_URL, "http://localhost:3000"]
+  }));
   if (process.env.NODE_ENV !== "development") {
     sessionOptions.proxy = true;
     sessionOptions.cookie = {
