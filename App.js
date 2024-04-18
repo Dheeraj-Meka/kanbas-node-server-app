@@ -24,14 +24,15 @@ const app = express();
     proxy: true,
     cookie: {
       sameSite: "none",
-      secure: true,
+      secure: true
       //domain: process.env.HTTP_SERVER_DOMAIN,
     }
   };
-  app.use(cors({
+  /* app.use(cors({
     credentials: true,
     origin: [process.env.FRONTEND_URL, "http://localhost:3000"]
-  }));
+  })); */
+  app.use(cors({origin: process.env.FRONTEND_URL}));
   if (process.env.NODE_ENV !== "development") {
     sessionOptions.proxy = true;
     sessionOptions.cookie = {
@@ -40,10 +41,9 @@ const app = express();
       domain: process.env.HTTP_SERVER_DOMAIN,
     };
   }
-  app.use(session(sessionOptions));
-  
-  
+
 app.use(express.json());
+app.use(session(sessionOptions));
 CourseRoutes(app);
 ModuleRoutes(app);
 AssignmentRoutes(app);

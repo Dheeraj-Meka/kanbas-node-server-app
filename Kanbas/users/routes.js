@@ -66,6 +66,7 @@ export default function UserRoutes(app) {
   };
 
   const signout = (req, res) => {
+    globalCurrentuser = null;
     req.session.destroy();
     res.sendStatus(200);
   };
